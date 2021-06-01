@@ -1,2 +1,3 @@
-schedule
 gunicorn==19.9.0
+schedule==1.1.0
+
