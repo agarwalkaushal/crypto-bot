@@ -73,15 +73,37 @@ def create_order(ticker, quantity, action, price):
 
 def program():
     inr_balance = get_balance('INR')
+    print('INR: ', inr_balance['balance'])
     # Ethereum
     eth_price = get_live_price('ETHINR')['last_price']
-    print(eth_price)
+    print('ETH: ', eth_price)
     if float(inr_balance['balance']) > 150:
-        if float(eth_price) < 200000:
-            create_order('ETHINR', round(150/float(eth_price), 4), 'buy', 199999)
+        if float(eth_price) <= 160000:
+            create_order('ETHINR', round(
+                150/float(eth_price), 4), 'buy', eth_price)
+    # Bitcoin
+    btc_price = get_live_price('BTCINR')['last_price']
+    print('BTC: ', btc_price)
+    if float(inr_balance['balance']) > 150:
+        if float(btc_price) <= 2400000:
+            create_order('BTCINR', round(
+                150/float(btc_price), 4), 'buy', btc_price)
 
-    if float(eth_price) > 210000:
-        create_order('ETHINR', round(150/float(eth_price), 4), 'sell', 210001)
+    # if float(eth_price) > 210000:
+        # create_order('ETHINR', round(150/float(eth_price), 4), 'sell', 210001)
+
+
+def doge():
+    inr_balance = get_balance('INR')
+    print('Wallet: ', inr_balance)
+    doge_price = get_live_price('DOGEINR')['last_price']
+    print('Doge: ', doge_price)
+    if float(inr_balance['balance']) > 4000:
+        if float(doge_price) <= 32.35:
+            create_order('DOGEINR', 10, 'buy', doge_price)
+
+    if float(doge_price) >= 32.85:
+        create_order('DOGEINR', 10, 'sell', doge_price)
 
 
 schedule.every(30).seconds.do(program)
